@@ -170,9 +170,10 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+.DS_Store
+
 *.aux
 *.fdb_latexmk
 *.fls
 *.out
 *.synctex.gz
-.DS_Store
