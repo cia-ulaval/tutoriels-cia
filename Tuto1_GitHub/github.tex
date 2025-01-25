@@ -49,17 +49,17 @@
 
 
 \newtheorem{definition}{Definition}
-
+\renewcommand{\chaptername}{Chapitre}
 
 \begin{document}
 \setlength{\parindent}{0cm}
 \chapter{Git and GitHub}
 
-Git et GitHub sont deux outils dont vous ne pourrez pas vous passer si vous voulez avoir une carrière qui inclut de la programmation. Normalement, vous devriez tous avoir un compte GitHub et avoir installer Git sur votre ordinateur. Ces outils sont utilisés dans les cours d'introduction à la programmation puisqu'ils sont essentiels. Vous connaissez probablement plusieurs informations qui se trouvent dans ce tutoriel. Toutefois, vous ne les comprenez peut-être pas assez bien pour vous en servir correctement et quotidiennement. Le but de ce tutoriel est de faire un rappel et de vous apprendre la base de Git et GitHub qui n'a pas été enseignée durant le cours d'introduction à la programmation. \\
+Git et GitHub sont deux outils dont vous ne pourrez pas vous passer si vous voulez avoir une carrière qui inclut de la programmation. Normalement, vous devriez tous avoir un compte GitHub et avoir déjà installé Git sur votre ordinateur. Ces outils sont utilisés dans les cours d'introduction à la programmation puisqu'ils sont essentiels. Vous connaissez probablement plusieurs informations qui se trouvent dans ce tutoriel. Toutefois, il est possible que vous ne les compreniez pas suffisament pour vous en servir correctement au quotidien. Le but de ce tutoriel est de faire un rappel et de vous apprendre la base de Git et GitHub qui n'a pas été enseignée durant le cours d'introduction à la programmation. \\
 
-Git est un outil de versionnage et d'hébergement de code. Git permet d'héberger son code sur un serveur, ce qui a l'avantage d'éviter d'avoir une seule version locale sur votre ordinateur et de permettre facilement la collaboration. En hébergeant votre code dans un dépôt central, vous pouvez l'utiliser et le modifier à partir de différents ordinateurs, tout en soyant sûr que vous avez toujours une sauvegarde. Puisque le code est hébergé sur un serveur, plusieurs développeurs peuvent développer chacun de leur côté sur leur ordinateur, puis fusionner le code à la version globale, qui pourra ensuite être utilisée par tous les autres collaborateurs. Il est recommandé d'utiliser Git même lorsque vous travaillez seul, pour avoir accès aux différentes versions du projet si vous faites une erreur ou si votre ordinateur a des problèmes. \\
+Git est un outil de versionnage et d'hébergement de code. Git permet d'héberger son code sur un serveur, ce qui a l'avantage d'éviter d'avoir une seule version locale sur votre ordinateur et de faciliter la collaboration. En hébergeant votre code dans un dépôt central, vous pouvez l'utiliser et le modifier à partir de différents ordinateurs, tout en étant sûr que vous avez toujours une sauvegarde. Puisque le code est hébergé sur un serveur, plusieurs développeurs peuvent développer chacun de leur côté sur leur ordinateur, puis fusionner le code à la version globale, qui pourra ensuite être utilisée par tous les autres collaborateurs. Il est recommandé d'utiliser Git même lorsque vous travaillez seul, pour avoir accès aux différentes versions du projet si vous faites une erreur ou si votre ordinateur a des problèmes. \\
 
-Chacun de vos projets sera placé dans un dépôt\footnote{Tout au long de ce tutoriel, j'utiliserai dépôt au lieu de \emph{repository}.}. Dans votre ordinateur, le dépôt local sera simplement un dossier qui contient l'entièreté de votre code. Toutefois, il sera aussi synchronisé sur un dépôt central. Le dépôt central est la version hébergée sur les serveurs de Git. Dans les prochaines sections, je vous montrerai à utiliser les différentes lignes de commande Git. 
+Chacun de vos projets sera placé dans un dépôt\footnote{Tout au long de ce tutoriel, j'utiliserai dépôt au lieu de \emph{repository}.}. Dans votre ordinateur, le dépôt local sera simplement un dossier qui contient l'entièreté de votre code. Toutefois, il sera aussi synchronisé sur un dépôt central. Le dépôt central est la version hébergée sur les serveurs de GitHub. Dans les prochaines sections, je vous montrerai à utiliser les différentes lignes de commande Git. 
 
 GitHub est un serveur qui utilise Git comme interface avec l'utilisateur. C'est GitHub qui va héberger le code. Pour déposer votre code sur GitHub, vous devrez utiliser Git. GitHub est utile entre autres pour le partage de code. En effet, il est possible d'accéder au code d'un collègue simplement grâce à un url. Il existe de plus beaucoup de dépôts publics, que vous pourrez utiliser pour vos différents projets. Ils proposent de plus plusieurs outils qui permettent de faciliter le développement logiciel. 
 
@@ -77,7 +77,7 @@ Commencez par ouvrir votre terminal et taper "git". La sortie de votre terminal\
     \caption{Sortie attendue dans le terminal lorsque la commande ``git'' est tapée dans le terminal.} \label{fig:check_if_git}
 \end{figure}
 
-Si Git n'est pas installé, vous devrez le télécharger. Normalement sur Linux il devrait déjà être installé. Sur Windows, téléchargez le \href{https://git-scm.com/}{ici}. Pour les utilisateurs de Mac, nous recommandons de le télécharger en installant Xcode. Dans le terminal, tapez la commande suivante \code{xcode-select --install}.
+Si Git n'est pas installé, vous devrez le télécharger. Normalement, sur Linux, il devrait déjà être installé. Sur Windows, téléchargez le \href{https://git-scm.com/}{ici}. Pour les utilisateurs de Mac, nous recommandons de le télécharger en installant Xcode. Dans le terminal, tapez la commande suivante \code{xcode-select --install}.
 
 Maintenant, vous devez configurer Git pour qu'il ait accès à votre profil GitHub. Dans le terminal, veuillez recopier les commandes suivantes puis remplacer votre email ainsi que votre nom d'utilisateur GitHub. 
 
@@ -101,7 +101,7 @@ Pour clôner le dépôt, il vous est nécessaire d'avoir son url. Pour ce faire,
     \end{enumerate}
 \end{myexampleblock}
 
-Prenez le temps d'observer le contenu du dépôt. Vous y trouverez les dossiers associés aux quatre laboratoires de la session, ainsi que trois fichiers : \code{.gitignore}, \code{LICENSE} et \code{README.md}. Un bon dépôt devrait toujours contenir ces trois fichiers, ainsi qu'un fichier supplémentaire appelé \code{requirements.txt}. Nous y reviendrons plus tard, après avoir clôné le dépôt. \\
+Prenez le temps d'observer le contenu du dépôt. Vous y trouverez les dossiers associés aux trois tutoriels de la session, ainsi que quatre fichiers : \code{.gitignore}, \code{LICENSE}, \code{README.md} et \code{requirements.txt}. Un bon dépôt devrait toujours contenir ces quatres fichiers. Nous y reviendrons plus tard, après avoir clôné le dépôt. \\
 
 Nous voulons maintenant clôner le dépôt. Pour ce faire, nous utiliserons notre première commande Git.
 
@@ -111,9 +111,9 @@ Nous voulons maintenant clôner le dépôt. Pour ce faire, nous utiliserons notr
 
 \begin{myexampleblock}{Exercice : Clôner le dépôt du tutoriel}
     \begin{enumerate}
-        \item Cliquez sur le bouton vert marqué ``Code'' et sélectionnez ``HTTPS''
-        \item Copiez le lien
-        \item Dans le terminal, tapez \code{\texttt{git clone <lien-du-repo>}}
+        \item Cliquez sur le bouton vert marqué ``Code'' et sélectionnez ``HTTPS''.
+        \item Copiez le lien.
+        \item Dans le terminal, tapez \code{\texttt{git clone <lien-du-repo>}}.
     \end{enumerate}
 \end{myexampleblock}
 
@@ -123,7 +123,7 @@ Maintenant que vous avez téléchargez le dépôt, ouvrez un par un les fichiers
 
 Le README est le premier contact entre l'utilisateur et le dépôt. C'est un fichier markdown qui doit donner les informations nécessaires à utiliser le code du dépôt. Le README va contenir un titre ainsi qu'une description du projet. Ainsi, on doit savoir quel est le but du projet ainsi que comment l'utiliser. Plus la description est claire, plus il est probable que d'autres utilisateurs veuillent utiliser votre code. Il est donc important de faire un beau README. \\
 
-Par exemple, si c'est un dépôt qui fournit une fonction ou un groupe de fonction, donnez un exemple simple d'utilisation. Par exemple, si mon projet fourni la fonction \code{\texttt{reverse\_name}} suivante
+Par exemple, si c'est un dépôt qui fournit une fonction ou un groupe de fonction, donnez un exemple simple d'utilisation. Par exemple, si mon projet fourni la fonction \code{\texttt{reverse\_name}} suivante\footnote{Exemple généré par ChatGPT sous ma demande.}
 
 \begin{lstlisting}[language=Python]
 def reverse_name(name):
@@ -150,14 +150,14 @@ Pour plus d'information, je vous recommande ce \href{https://www.freecodecamp.or
 
 \textcolor{red}{Disclaimer : Je ne suis pas un expert légal, donc il ne faut pas croire tout ce que je dis.\\}
 
-La license n'est pas un document que vous allez consulter souvent. Le but de la licence est de savoir ce que pouvez faire et ce que vous ne pouvez pas faire avec le code dans le dépôt. Les licences les plus classiques sont CC-BY 4.0, MIT, GNU et Apache 2.0. Généralement, vous devriez pouvoir utiliser et modifier le code sans problème, tant que vous citez le matériel emprunté. Il faut toutefois faire attention si jamais vous faites un projet de recherche ou un produit dans une compagnie, car certaines licences nécessitent que tout code qui utilise le projet soit sous la même licence et potentiellement rendu public. \\
+La licence n'est pas un document que vous allez consulter souvent. Le but de la licence est de savoir ce que pouvez faire et ce que vous ne pouvez pas faire avec le code dans le dépôt. Les licences les plus classiques sont CC-BY 4.0, MIT, GNU et Apache 2.0. Généralement, vous devriez pouvoir utiliser et modifier le code sans problème, tant que vous citez le matériel emprunté. Il faut toutefois faire attention si jamais vous faites un projet de recherche ou un produit dans une compagnie, car certaines licences nécessitent que tout code qui utilise le projet soit sous la même licence et potentiellement rendu public. \\
 
-S'il n'y a pas de license, c'est équivalent à "ne pas toucher". Il y a beaucoup de chercheurs qui ne mettent pas de licence en se disant que ça devient "open-source" et peut-être utilisé par n'importe qui, mais c'est le contraire. Pas de licence veut dire que tous les droits sont à l'auteurs et que tu ne peux pas utiliser le code. Dans un petit projet, ce n'est pas très grave, personne va vous taper sur les doigts. Si vous faites de la recherche/ vous voulez publier du code et laisser la communauté l'utiliser, il faut demander la permission aux auteurs ou suivre la licence\footnote{Je vous encourage à aller lire cette page web : \url{https://choosealicense.com/no-permission/}}. \\
+S'il n'y a pas de licence, c'est équivalent à "ne pas toucher". Il y a beaucoup de chercheurs qui ne mettent pas de licence en se disant que ça devient "open-source" et peut-être utilisé par n'importe qui, mais c'est le contraire. Pas de licence veut dire que tous les droits sont à l'auteurs et que tu ne peux pas utiliser le code. Dans un petit projet, ce n'est pas très grave, personne ne va vous taper sur les doigts. Si vous faites de la recherche ou vous voulez publier du code et laisser la communauté l'utiliser, il faut demander la permission aux auteurs ou suivre la licence\footnote{Je vous encourage à aller lire cette page web : \url{https://choosealicense.com/no-permission/}}. \\
 
-Lorsque vous créez un dépôt, je vous encourage à suivre \href{https://docs.github.com/fr/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository}{la procédure de GitHub} pour la sélection de licence. Si vous avez d'autres questions, je vous recommande le site \href{https://choosealicense.com/}{Choose A Licence}.
+Lorsque vous créez un dépôt, je vous encourage à suivre \href{https://docs.github.com/fr/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository}{la procédure de GitHub} pour la sélection de licence. Si vous avez d'autres questions, je vous recommande le site \href{https://choosealicense.com/}{Choose A License}.
 
 \subsection{.gitignore}
-Le fichier .gitignore n'est pas le fichier le plus intéressant. C'est purement un fichier utilitaire. Il va être utile uniquement si l'utilisation de votre code crée des fichiers qui ne doivent pas se retrouver sur github. Par exemple, si votre code télécharge MNIST, on ne veut pas qu'il se retrouve sur GitHub. Un autre exemple, directement dans le dossier Tuto1-GitHub, vous trouverez un fichier ``.tex''. Si vous compilez le fichier, vous aurez un pdf ainsi que des fichiers avec des extensions tels que ".aux", ".fls", ".log", ".out", etc. Ces fichiers ne sont pas pertinents et je ne veux pas oublier de les enlever et mettre des fichiers inutiles sur GitHub. Si vous regardez le fichier .gitignore, vous verrez en bas les lignes suivantes : 
+Le fichier .gitignore n'est pas le fichier le plus intéressant. C'est purement un fichier utilitaire. Il va être utile uniquement si l'utilisation de votre code crée des fichiers qui ne doivent pas se retrouver sur GitHub. Par exemple, si votre code télécharge MNIST, on ne veut pas qu'il se retrouve sur GitHub. Un autre exemple, directement dans le dossier Tuto1-GitHub, vous trouverez un fichier ``.tex''. Si vous compilez le fichier, vous aurez un pdf ainsi que des fichiers avec des extensions tels que ".aux", ".fls", ".log", ".out", etc. Ces fichiers ne sont pas pertinents et je ne veux pas oublier de les enlever et mettre des fichiers inutiles sur GitHub. Si vous regardez le fichier .gitignore, vous verrez en bas les lignes suivantes : 
 
 \begin{lstlisting}
 *.aux
@@ -167,7 +167,7 @@ Le fichier .gitignore n'est pas le fichier le plus intéressant. C'est purement 
 *.synctex.gz
 \end{lstlisting}
 
-Vous ne les trouverez pas sur GitHub, puisqu'ils sont automatiquement ignorés. L'astérisque au début veut dire : tous les fichiers de style \code{nom\_du\_fichier.aux} va être matché par *.aux. \\
+Vous ne les trouverez pas sur GitHub, puisqu'ils sont automatiquement ignorés. L'astérisque au début veut dire : tous les fichiers de style \code{<nom\_du\_fichier>.aux} va être matché par *.aux. \\
 
 Pour plus d'information, je recommande la \href{https://git-scm.com/docs/gitignore}{documentation de Git}.
 
@@ -212,7 +212,7 @@ Dans cet exercice, vous allez créer un dépôt Git.
     \item Choisissez le nom du dépôt. Nous recommandons ``tuto-cia'' ou d'utiliser le nom aléatoire généré par GitHub. 
     \item Ajoutez une petite description du dépôt. 
     \item Cliquez sur ``Private'' pour créer un dépôt privé.
-    \item Ajoutez un README
+    \item Ajoutez un README.
     \item Choisissez le .gitignore de votre choix en tapant le langage de programmation que vous utilisez. 
     \item Choisissez une licence de votre choix. Je recommande ``MIT License''.
     \item Créez votre dépôt.
@@ -250,7 +250,7 @@ Premièrement, nous allons commencer par cloner le dépôt créé précédemment
 
 \begin{myexampleblock}{Exercice : Cloner le nouveau dépôt}
     \begin{enumerate}
-        \item Ouvrez votre dépôt sur GitHub
+        \item Ouvrez votre dépôt sur GitHub.
         \item Obtenez le lien du dépôt, en cliquant sur le bouton vert ``code'' et en choisissant ``https''. 
         \item Utilisez \texttt{git clone <url-du-dépôt>} dans votre terminal.
     \end{enumerate}
@@ -280,7 +280,7 @@ Nous allons maintenant modifier le contenu du README directement sur l'ordinateu
     \end{enumerate}
 \end{myexampleblock}
 
-Si tout c'est bien passer, vous devriez avoir un message d'erreur. En effet, vous devriez voir quelque chose de similaire à la figure~\ref{fig:erreur_push_git}.
+Si tout s'est bien passé, vous devriez avoir un message d'erreur. En effet, vous devriez voir quelque chose de similaire à la figure~\ref{fig:erreur_push_git}.
 \begin{figure}[!h]
     \centering
     \includegraphics[width=\textwidth]{images/erreur_push_git.png}
@@ -291,11 +291,11 @@ En effet, après avoir clôner le dépôt, nous avons fait des modifications dir
 
 \begin{myexampleblock}{Exercice : Gérer manuellement la fusion}
     \begin{enumerate}
-        \item Tapez \texttt{git pull}
+        \item Tapez \texttt{git pull}.
         \item Si vous obtenez une erreur similaire à la figure~\ref{fig:erreur_pull_git}, suivez les étapes suivantes :
         \begin{enumerate}
-            \item Tapez \texttt{git config pull.rebase false}
-            \item Tapez \texttt{git pull}
+            \item Tapez \texttt{git config pull.rebase false}.
+            \item Tapez \texttt{git pull}.
         \end{enumerate}
         \item Tapez \texttt{git status}.
     \end{enumerate}
@@ -307,7 +307,7 @@ En effet, après avoir clôner le dépôt, nous avons fait des modifications dir
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=\textwidth]{images/erreur_push_git.png}
+    \includegraphics[width=\textwidth]{images/erreur_pull_git.png}
     \caption{Message d'erreur quand des modifications ont été faites sur le dépôt git mais pas dans la version locale sur votre ordinateur.}\label{fig:erreur_pull_git}
 \end{figure}
 
@@ -327,15 +327,17 @@ On voit bien en rouge que les deux branches ont modifiées le README. Nous allon
     \caption{Apparence du fichier README lorsque la fusion a échoué.}\label{fig:git_merge}
 \end{figure}
 
-La section entre \code{<<<<<<<} et \code{=======} correspond au code local en conflit. La section entre \code{=======} et \code{>>>>>>>} correspond au code déjà soumis sur GitHub qui rentre en conflit avec votre code local. Dans la figure~\ref{fig:git_merge}, VSCode propose quatre options pour gérer le conflit. Vous pouvez accepter les modifications locales, accepter les modifications entrantes ou faire un mélange des deux. Si vous savez quelle version choisir, laissez l'éditeur faire son travail et cliquer sur une des deux options. Sinon, vous pouvez manuellement modifier le fichier jusqu'à ce qu'il soit à votre goût. Assurez vous d'enlever les symboles \code{<<<<<<<}, \code{=======}, \code{>>>>>>>}. 
+La section entre \code{<<<<<<<} et \code{=======} correspond au code local en conflit. La section entre \code{=======} et \code{>>>>>>>} correspond au code déjà soumis sur GitHub qui rentre en conflit avec votre code local. Dans la figure~\ref{fig:git_merge}, VSCode propose quatre options pour gérer le conflit. Vous pouvez accepter les modifications locales, accepter les modifications entrantes ou faire un mélange des deux. Si vous savez quelle version choisir, laissez l'éditeur faire son travail et cliquer sur une des deux options. Sinon, vous pouvez manuellement modifier le fichier jusqu'à ce qu'il soit à votre goût. Assurez vous d'enlever les symboles \code{<<<<<<<}, \code{=======}, \code{>>>>>>>}. \\
+
+Suivez maintenant les étapes suivantes pour finaliser la fusion.
 
 \begin{myexampleblock}{Exercice : Finir la fusion}
     \begin{enumerate}
         \item Ouvrez le fichier README dans un éditeur de code.
         \item Faites les modifications nécessaires. Retirez les symboles associés au conflit. 
-        \item Dans le terminal, tapez \texttt{git add README.md}
-        \item Tapez \texttt{git commit -m "Mon premier conflit!"}
-        \item Tapez \texttt{git push}
+        \item Dans le terminal, tapez \texttt{git add README.md}.
+        \item Tapez \texttt{git commit -m "Mon premier conflit!"}.
+        \item Tapez \texttt{git push}.
     \end{enumerate}
 \end{myexampleblock}
 Normalement, si tout a fonctionné, les modifications devraient apparaître sur GitHub! 
@@ -351,12 +353,12 @@ Tel que mentionné plus haut, les \emph{issues} sont des tickets de tâches qui 
 
 \begin{myexampleblock}{Exercice : Créer un \emph{issue}}
     \begin{enumerate}
-        \item Ouvrez votre dépôt GitHub et ouvrez la section \emph{issues}
-        \item Cliquez sur le bouton vert \code{New issue}
-        \item Ajoutez un titre. Je recommande ``Mon premier issue''
+        \item Ouvrez votre dépôt GitHub et ouvrez la section \emph{issues}.
+        \item Cliquez sur le bouton vert \code{New issue}.
+        \item Ajoutez un titre. Je recommande ``Mon premier issue''.
         \item Ajoutez une courte description.
         \item Dans le coin à droite, assignez vous-même à l'issue.
-        \item Créez l'issue
+        \item Créez l'issue.
     \end{enumerate}
 \end{myexampleblock}
 Maintenant que l'\emph{issue} est créé, il sera disponible jusqu'à ce qu'il soit fermé. Dans le cadre de certains gros projets, par exemple \href{https://github.com/scikit-learn/scikit-learn/issues}{Scikit-Learn}, il est possible de reporter un bug ou poser une question. Un \emph{issue} peut être fermé de deux façons différentes : \code{Close as completed} et \code{Close as not planned}. Lorsque vous avez réglé le problème, l'\emph{issue} va être fermée en tant que complétée. Toutefois, si vous ne souhaitez plus réglez le problème, ou c'était une amélioration que vous n'avez pas le temps ou l'envie de faire, vous pouvez fermer l'\emph{issue} en tant que ``non planifié''. 
@@ -368,11 +370,11 @@ Nous allons maintenant créer la branche. Sur la branche, vous pouvez faire tout
 
 \begin{myexampleblock}{Exercice : Créer une branche}
     \begin{enumerate}
-        \item Ouvrez l'issue qui vous intéresse
-        \item Cliquez sur \code{Create a branch} en bas à droite
-        \item Modifiez le nom de l'issue pour un nom un peu plus courte
-        \item Sélectionnez \code{Checkout locally}
-        \item Cliquez sur le bouton vert \code{Create branch}
+        \item Ouvrez l'issue qui vous intéresse.
+        \item Cliquez sur \code{Create a branch} en bas à droite.
+        \item Modifiez le nom de l'issue pour un nom un peu plus court.
+        \item Sélectionnez \code{Checkout locally}.
+        \item Cliquez sur le bouton vert \code{Create branch}.
     \end{enumerate}
 \end{myexampleblock}
 
@@ -389,8 +391,8 @@ Au lieu de créer la branche sur GitHub, il est aussi possible de l'utiliser ave
 Pour accéder à la branche, vous pouvez suivre les instructions de GitHub. 
 \begin{myexampleblock}{Exercice : Accéder à la branche}
     \begin{enumerate}
-        \item Dans le terminal, tapez \code{\texttt{git fetch origin}}
-        \item Entrez \code{\texttt{git checkout <nom-de-la-branche>}}
+        \item Dans le terminal, tapez \code{\texttt{git fetch origin}}.
+        \item Entrez \code{\texttt{git checkout <nom-de-la-branche>}}.
     \end{enumerate}
 \end{myexampleblock}
 
@@ -402,7 +404,7 @@ Pour accéder à la branche, vous pouvez suivre les instructions de GitHub.
     \end{enumerate}
 \end{myblock}
 
-Modifiez maintenant le README sur la nouvelle branche, puis poussez la modification sur la branche. Nous allons maintenant effectuer un \emph{pull-request}.
+Modifiez maintenant le README sur la nouvelle branche, puis poussez la modification sur la branche. Nous allons maintenant effectuer une \emph{pull-request}.
 
 \subsection{Pull request}
 Les \emph{pull requests} permettent de vérifier les changements qui ont été effectués sur la branche. Elles sont aussi utilisées pour faire vérifier le code par des collègues avant de fusionner les modifications à la branche principale. Vos collègues pourront mettre des commentaires et demander des modifications avant d'accepter la fusion. 
@@ -410,18 +412,18 @@ Les \emph{pull requests} permettent de vérifier les changements qui ont été e
 Si vous ne l'avez pas encore fait, faites une modification dans le README sur la nouvelle branche, puis poussez la modification sur la branche. En allant sur GitHub dans la section \code{Pull requests}, vous verrez maintenant un nouveau message disant \code{<nom-de-la-branche> had recent pushes $x$ minutes ago}. Cliquez maintenant sur \code{Compare \& pull request}. 
 \begin{myexampleblock}{Exercice : Créer une \emph{pull request}}
     \begin{enumerate}
-        \item Cliquez sur \code{Compare \& pull request}
-        \item Ajoutez un titre parlant
-        \item Ajoutez une courte description de la modification
-        \item Cliquez sur le bouton vert \code{Create pull request}
+        \item Cliquez sur \code{Compare \& pull request}.
+        \item Ajoutez un titre parlant.
+        \item Ajoutez une courte description de la modification.
+        \item Cliquez sur le bouton vert \code{Create pull request}.
     \end{enumerate}
 \end{myexampleblock}
 
 Normalement, si c'était un projet avec plusieurs coéquipiers, vous seriez amener à ajouter des reviewers. Sans l'approbation des reviewers, vous ne serez pas en mesure de fusionner votre code avec la branche principale. De plus, GitHub vous indique s'il y a un conflit avec la branche principale. Dans ce cas, j'utilise généralement \href{https://gist.github.com/whoisryosuke/36b3b41e738394170b9a7c230665e6b9}{ce tutoriel}.
 
-Après la création d'une \emph{pull request}, vous avez accès à la conversation avec les reviewers, les différents \emph{commit} que vous avez poussé sur la branche ainsi qu'une comparaison entre le code sur la branche principale et sur les modifications entrantes. 
+Après la création d'une \emph{pull request}, vous avez accès à la conversation avec les reviewers, les différents \emph{commit} que vous avez poussé sur la branche ainsi qu'une comparaison entre le code sur la branche principale et les modifications entrantes. 
 
-Quand le code est approuvé, cliquez sur \code{Merge pull request}. Le code sera maintenant fusionné à la branche principale. GitHub vous proposera de plus de 
+Quand le code est approuvé, cliquez sur \code{Merge pull request}. Le code sera maintenant fusionné à la branche principale. GitHub vous proposera de 
 supprimer la branche. Puisqu'elle ne sera plus utilisée, généralement, vous pouvez la supprimer immédiatement. En fermant la \emph{pull request}, généralement, l'\emph{issue} va être fermée en tant que complétée. 
 
 \subsection{Commandes Git pour quand vous avez fait une erreur}
@@ -436,7 +438,7 @@ Assurément, vous allez faire des erreurs en utilisant Git. Ce qui est important
 \end{myblock}
 
 \begin{myblock}{git commit --amend}
-    La commande \code{git commit} peut être utilisée avec le drapeau \code{--amend} pour faire des modifications aux commits qui n'ont pas encore été poussés. Cette commande permet de faire différents types de modifications, je vous propose dnc deux sources différentes pour apprendre à la connaître : \href{https://www.atlassian.com/git/tutorials/rewriting-history}{site de Git} et \href{https://www.atlassian.com/git/tutorials/rewriting-history}{site d'Atlassian.} 
+    La commande \code{git commit} peut être utilisée avec le drapeau \code{--amend} pour faire des modifications aux commits qui n'ont pas encore été poussés. Cette commande permet de faire différents types de modifications, je vous propose donc deux sources différentes pour apprendre à la connaître : \href{https://www.atlassian.com/git/tutorials/rewriting-history}{site de Git} et \href{https://www.atlassian.com/git/tutorials/rewriting-history}{site d'Atlassian.} 
 \end{myblock}
 
 Il existe plein d'autres commandes git qui peuvent être utilisées, mais qui sont trop spécialisées et ne sont pas assez utilisées pour qu'elles soient présentées dans ce tutoriel. Je vous recommande la \href{https://git-scm.com/docs}{documentation de Git} pour toutes vos questions, ainsi que StackOverflow. Je vous recommande de plus la \href{https://training.github.com/downloads/fr/github-git-cheat-sheet.pdf}{cheat sheet de GitHub}!
