@@ -9,7 +9,7 @@ Le tutoriel 1 se trouve dans le dossier `Tuto1-GitHub`. Il contient les document
 
 Les fichiers du tutoriel 2 se trouvent dans le dossier `Tuto2-MLSP`. Il contient les deux fichiers .ipynb qui seront utilisés pour le laboratoire. De plus, le tutoriel peut être suivi sur Colab aux liens suivants : 
 
-[Traitement de signal](https://colab.research.google.com/drive/1oWu5LGhkLxxoceMsau4RCbwd23NqTINa?usp=sharing)
+[Traitement de signal](https://colab.research.google.com/drive/1oWu5LGhkLxxoceMsau4RCbwd23NqTINa?usp=sharing)  
 [Arbre de décisions](https://colab.research.google.com/drive/1G18Te2XvfXO67VVka_s8VKsGDq6dcXGD?usp=sharing)
 
 ## Tutoriel 3
