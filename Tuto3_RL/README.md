@@ -2,7 +2,7 @@
 
 Contrairement au dernier laboratoire, vous aurez besoin d'une version de Python fonctionnelle ainsi que d'un environnement virtuel. Je vous propose donc d'installer ``uv'', un outil qui vous permettra d'installer Python, de créer votre environnement virtuel ainsi que d'installer toutes les librairies nécessaires pour faire fonctionner ce notebook. 
 
-Je vous invite donc à ouvrir un terminal et à rouler les commandes suivantes. La dernière commande devrait ouvrir une fenêtre avec Jupyter Notebook. Ouvrez le fichier `tutoriel_h2025_CIA_réseaux_de_neurones.ipynb`.
+Je vous invite donc à ouvrir un terminal et à rouler les commandes suivantes. La dernière commande devrait ouvrir une fenêtre avec Jupyter Notebook. Ouvrez le fichier `tutoriel_h2025_CIA_apprentissage_renforcement.ipynb`.
 
 ### Pour MacOs et Linux:
 
