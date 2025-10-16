@@ -3,18 +3,21 @@ use livre::*;
 
 fn main() {
     // TODO 1: Créer un livre qui s'appelle `mon_livre`
-    // votre code ici ...
+    //      (avec Livre::new(...))
+    // avec nom "Crime et Châtiment" par "Fiodor Dostoïevski"
 
-    let titre_ref = mon_livre.get_titre();
-    let auteur_ref = mon_livre.get_auteur();
-
-    // TODO 2: Corriger l'erreur
+    let titre = mon_livre.get_titre();
+    let auteur = mon_livre.get_auteur();
+    let pages = mon_livre.get_pages();
+    
+    // TODO 2: Corrigez le problème ici...
     mon_livre.ajouter_page("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
 
-    let mots_total = 0;
-    // TODO 3: Compter le nombre de mots.
-    // votre code ici ...
 
-    println!("{} par {}", titre_ref, auteur_ref);
-    println!("Nombre de mots: {}", mots_total);
+    let mut lettres = 0;
+    // TODO 3: Comptez le nombre total de lettres dans les pages du livre
+    //      (avec .len())
+
+    println!("{} par {}", titre, auteur);
+    println!("Nombre de lettres: {}", lettres);
 }

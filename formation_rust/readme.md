@@ -19,24 +19,13 @@ let condition: bool = true;
 let texte: String = "Il était une fois...".to_string();
 ```
 
-## conditions
+## Boucles
 
 ```rust
-// condition
-if x == 0 {
-    foo();
-}
-```
+let ma_liste = vec![0, 3, 2, 4]
 
-## Fonctions
-
-```rust
-// fonction
-fn ma_methode(parametre: Type) -> TypeDeRetour {
-    let mon_resultat = traitement(parametre);
-
-    // return mon_resultat;
-    mon_resultat
+for e in ma_liste {
+    println!("{}", e);
 }
 ```
 
