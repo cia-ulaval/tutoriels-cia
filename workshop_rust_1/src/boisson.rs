@@ -7,17 +7,17 @@ use rand::Rng;
 
 #[derive(Debug, Clone)]
 pub enum CommandeBoisson {
-    Espresso,
+    Expresso,
     CafeAllonge,
-    CafeLatte,
+    CafeAuLait,
 }
 
 impl CommandeBoisson {
     pub fn prix(&self) -> f32 {
         match self {
-            CommandeBoisson::Espresso => 3.0,
+            CommandeBoisson::Expresso => 3.0,
             CommandeBoisson::CafeAllonge => 3.5,
-            CommandeBoisson::CafeLatte => 5.0,
+            CommandeBoisson::CafeAuLait => 4.0,
         }
     }
 }
@@ -32,9 +32,9 @@ pub struct Boisson {
 
 const TEMP_AMBIANTE: f32 = 21.0;
 const TEMP_BOISSON_CHAUDE: f32 = 67.0;
-const ESPRESSO_ML: f32 = 27.0;
+const EXPRESSO_ML: f32 = 27.0;
 /// Temps d'extraction d'un espresso en secondes
-const TEMPS_EXTRACTION_ESPRESSO: Duration = Duration::from_secs(1);
+const TEMPS_EXTRACTION_EXPRESSO: Duration = Duration::from_secs(1);
 
 impl Boisson {
     /// Retourne un score entre -1.0 et 1.0, avec un commentaire
@@ -44,20 +44,20 @@ impl Boisson {
             return (-1.0, "Mais, c'est un verre vide???".to_string());
         }
         let ideal = match commande {
-            CommandeBoisson::Espresso => Boisson {
-                espresso_ml: ESPRESSO_ML,
+            CommandeBoisson::Expresso => Boisson {
+                espresso_ml: EXPRESSO_ML,
                 lait_ml: 0.0,
                 eau_ml: 0.0,
                 temp_c: TEMP_BOISSON_CHAUDE,
             },
             CommandeBoisson::CafeAllonge => Boisson {
-                espresso_ml: ESPRESSO_ML,
+                espresso_ml: EXPRESSO_ML,
                 lait_ml: 0.0,
                 eau_ml: 90.0, // ajout d'eau
                 temp_c: TEMP_BOISSON_CHAUDE,
             },
-            CommandeBoisson::CafeLatte => Boisson {
-                espresso_ml: ESPRESSO_ML,
+            CommandeBoisson::CafeAuLait => Boisson {
+                espresso_ml: EXPRESSO_ML,
                 lait_ml: 150.0, // ajout de lait
                 eau_ml: 0.0,
                 temp_c: 65.0,
@@ -123,16 +123,16 @@ impl Boisson {
 
 /// Une machine à espresso industrielle, capable de sortir les meilleurs cafés
 /// Capable de faire N cafés en même temps
-pub struct MachineEspresso<const N: usize> {
-    positions: [Option<ExtractionEspresso>; N],
+pub struct MachineExpresso<const N: usize> {
+    positions: [Option<ExtractionExpresso>; N],
 }
 
-struct ExtractionEspresso {
+struct ExtractionExpresso {
     boisson: Boisson,
     instant_debut: Instant,
 }
 
-impl<const N: usize> MachineEspresso<N> {
+impl<const N: usize> MachineExpresso<N> {
     /// Crée une nouvelle machine à espresso
     /// - `places` : nombre de places dans la machine
     pub fn new() -> Self {
@@ -147,11 +147,11 @@ impl<const N: usize> MachineEspresso<N> {
     /// - `boisson` : la boisson à mettre sous la machine
     ///
     /// Retourne un erreur si il y a déjà une boisson à cette position
-    pub fn commencer_espresso(&mut self, posiotion: usize, boisson: Boisson) -> Result<(), ()> {
+    pub fn commencer_expresso(&mut self, posiotion: usize, boisson: Boisson) -> Result<(), ()> {
         if self.positions[posiotion].is_some() {
             return Err(());
         }
-        self.positions[posiotion] = Some(ExtractionEspresso::new(boisson));
+        self.positions[posiotion] = Some(ExtractionExpresso::new(boisson));
         Ok(())
     }
 
@@ -171,7 +171,7 @@ impl<const N: usize> MachineEspresso<N> {
         }
         // extraction est terminée
         let mut boisson = self.positions[pos].take().unwrap().boisson;
-        Self::ajouter_espresso(&mut boisson);
+        Self::ajouter_expresso(&mut boisson);
 
         return Ok(boisson);
     }
@@ -183,7 +183,7 @@ impl<const N: usize> MachineEspresso<N> {
             return None;
         }
         let duration = Instant::now() - self.positions[pos].as_ref().unwrap().instant_debut;
-        return Some(duration > TEMPS_EXTRACTION_ESPRESSO);
+        return Some(duration > TEMPS_EXTRACTION_EXPRESSO);
     }
 
     /// Ajoute de l'eau chaude à une boisson, avec un peut d'aléatoire.
@@ -197,9 +197,9 @@ impl<const N: usize> MachineEspresso<N> {
     }
 
     /// Ajoute de l'espresso à une boisson, avec un peut d'aléatoire.
-    fn ajouter_espresso(boisson: &mut Boisson) {
+    fn ajouter_expresso(boisson: &mut Boisson) {
         let mut rng = rand::rng();
-        let espresso_ml = ESPRESSO_ML + rng.random_range(-2.0..2.0);
+        let espresso_ml = EXPRESSO_ML + rng.random_range(-2.0..2.0);
         let ml_before = boisson.total_ml();
         boisson.espresso_ml += espresso_ml;
         boisson.temp_c =
@@ -207,7 +207,7 @@ impl<const N: usize> MachineEspresso<N> {
     }
 }
 
-impl ExtractionEspresso {
+impl ExtractionExpresso {
     fn new(boisson: Boisson) -> Self {
         Self {
             boisson,

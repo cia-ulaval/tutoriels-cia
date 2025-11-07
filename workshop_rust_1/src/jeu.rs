@@ -2,9 +2,10 @@
 
 use std::{
     collections::HashMap,
+    process::exit,
     sync::{
         Arc, Mutex,
-        mpsc::{self, Receiver, SyncSender},
+        mpsc::{self, Receiver, Sender},
     },
     time::Duration,
 };
@@ -14,7 +15,7 @@ use rand::{Rng, seq::IndexedRandom};
 use crate::boisson::{Boisson, CommandeBoisson};
 
 #[derive(Debug, Clone)]
-pub struct Requette {
+pub struct Requete {
     pub client: String,
     pub commande: CommandeBoisson,
     pub argent: f32,
@@ -27,70 +28,23 @@ pub enum RefuseRaison {
 }
 
 #[derive(Debug)]
-pub enum Reponse {
-    Servie {
-        client: String,
-        boisson: Boisson,
-        monnaie: f32,
-    },
-    Refuse {
-        client: String,
-        raison: RefuseRaison,
-    },
+pub struct Reponse {
+    pub client: String,
+    pub boisson: Boisson,
+    pub monnaie: f32,
 }
 
-impl Reponse {
-    fn get_client(&self) -> String {
-        match self {
-            Reponse::Servie {
-                client,
-                boisson: _,
-                monnaie: _,
-            } => client.clone(),
-            Reponse::Refuse { client, raison: _ } => client.clone(),
-        }
-    }
+pub enum GameMode {
+    Facil,
+    Difficil,
 }
 
-pub fn init_clients() -> (SyncSender<Reponse>, Receiver<Requette>) {
-    let (requette_send, requette_recv) = mpsc::sync_channel(32);
-    let (reponse_send, reponse_recv) = mpsc::sync_channel(32);
-
-    std::thread::spawn(move || {
-        run_clients(requette_send, reponse_recv);
-    });
-
-    (reponse_send, requette_recv)
-}
-
-fn run_clients(requette_send: SyncSender<Requette>, reponse_recv: Receiver<Reponse>) -> ! {
-    // store incoming responses
-    let reponses_store = Arc::new(Mutex::new(HashMap::<String, Reponse>::new()));
-
-    std::thread::spawn({
-        let reponses_store = reponses_store.clone();
-        move || {
-            loop {
-                let reponse = reponse_recv.recv().unwrap();
-                let mut reponses_store = reponses_store.lock().unwrap();
-                reponses_store.insert(reponse.get_client(), reponse);
-                // notify clients maybe
-            }
-        }
-    });
-
-    let mut rng = rand::rng();
-    loop {
-        // Spawn un nouveau client
-        let reponses_store = reponses_store.clone();
-        let requette_send = requette_send.clone();
-        std::thread::spawn(move || {
-            run_client(requette_send, reponses_store);
-        });
-
-        let sleep_secs = rng.random_range(4.0..5.0);
-        std::thread::sleep(Duration::from_secs_f64(sleep_secs));
-    }
+struct GameState {
+    requete_send: Sender<Requete>,
+    reponse_recv: Receiver<Reponse>,
+    mode: GameMode,
+    /// Callbacks for each request sent by a client
+    callbacks: Arc<Mutex<HashMap<String, Sender<Reponse>>>>,
 }
 
 const NOMS: &'static [&'static str] = &[
@@ -106,22 +60,94 @@ const NOMS: &'static [&'static str] = &[
     "Barthélemy",
 ];
 const COMMANDES: &'static [CommandeBoisson] = &[
-    CommandeBoisson::Espresso,
+    CommandeBoisson::Expresso,
     CommandeBoisson::CafeAllonge,
-    CommandeBoisson::CafeLatte,
+    CommandeBoisson::CafeAuLait,
 ];
+
+const REPOSE_TIMEOUT: Duration = Duration::from_secs(5);
 
 static SCORE: Mutex<f32> = Mutex::new(0.0);
 
+pub fn init_game(mode: GameMode) -> (Sender<Reponse>, Receiver<Requete>) {
+    let (requete_send, requete_recv) = std::sync::mpsc::channel<Requete>();
+
+    let resultat = Result::Ok("Hello");
+    let inside = resultat.unwrap(); // inside = "Hello"
+
+    let resultat = Result::Err(());
+    let inside = resultat.unwrap(); // crash !
+
+    let resultat = Option::Some("Hello");
+    let inside = resultat.unwrap(); // inside = "Hello"
+
+    let resultat = Option::None;
+    let inside = resultat.unwrap(); // crash !
+    
+    let (reponse_send, reponse_recv) = mpsc::channel();
+
+    let state = GameState {
+        requete_send,
+        reponse_recv,
+        mode,
+        callbacks: Arc::new(Mutex::new(HashMap::<String, Sender<Reponse>>::new())),
+    };
+
+    std::thread::spawn(move || {
+        run_game(state);
+    });
+
+    (reponse_send, requete_recv)
+}
+
+fn run_game(state: GameState) -> ! {
+    // On lance un thread pour relayer les réponses aux theads des clients
+    std::thread::spawn({
+        let callbacks = state.callbacks.clone();
+        move || {
+            loop {
+                let reponse = state.reponse_recv.recv().unwrap();
+                let mut callbacks = callbacks.lock().unwrap();
+                if let Some(callback) = callbacks.remove(&reponse.client) {
+                    callback.send(reponse).unwrap();
+                }
+            }
+        }
+    });
+
+    let mut rng = rand::rng();
+    loop {
+        // Spawn un nouveau client
+        let callbacks = state.callbacks.clone();
+        let requete_send = state.requete_send.clone();
+        std::thread::spawn(move || {
+            run_client(requete_send, callbacks);
+        });
+
+        let sleep_secs = match state.mode {
+            GameMode::Difficil => rng.random_range(0.0..1.0),
+            GameMode::Facil => rng.random_range(2.0..3.0),
+        };
+        std::thread::sleep(Duration::from_secs_f64(sleep_secs));
+    }
+}
+
 fn run_client(
-    requette_send: SyncSender<Requette>,
-    reponses_store: Arc<Mutex<HashMap<String, Reponse>>>,
+    requete_send: Sender<Requete>,
+    callbacks: Arc<Mutex<HashMap<String, Sender<Reponse>>>>,
 ) {
     let mut rng = rand::rng();
 
-    let letter = (b'A' + rng.random_range(0..26)) as char;
+    let (reponse_send, reponse_recv) = mpsc::channel();
     let mut nom = NOMS.choose(&mut rng).unwrap().to_string();
-    nom = format!("{} {}.", nom, &letter.to_string());
+    {
+        let mut callbacks = callbacks.lock().unwrap();
+        while callbacks.contains_key(&nom) {
+            let letter = (b'A' + rng.random_range(0..26)) as char;
+            nom = format!("{} {}.", nom, &letter.to_string());
+        }
+        callbacks.insert(nom.clone(), reponse_send);
+    }
     println!("[{nom}] *Arrive dans le café.*");
 
     let sleep_secs = rng.random_range(0.0..1.0);
@@ -130,65 +156,51 @@ fn run_client(
     let commande = COMMANDES.choose(&mut rng).unwrap().clone();
     let argent = commande.prix() + rng.random_range(0.0..3.0);
 
-    let requette = Requette {
+    let requete = Requete {
         client: nom.to_string(),
         commande: commande.clone(),
         argent,
     };
 
-    // envoyer la requette
-    requette_send.send(requette.clone()).unwrap();
+    // envoyer la requete
+    requete_send.send(requete.clone()).unwrap();
     println!("[{}] *Passe sa commande: {:?}*", &nom, &commande);
 
     let sleep_secs = rng.random_range(0.0..3.0);
     std::thread::sleep(Duration::from_secs_f64(sleep_secs));
 
     // recevoir réponse
-    if let Some(reponse) = recevoir_reponse(&nom, reponses_store) {
-        match reponse {
-            Reponse::Servie {
-                client: _,
-                boisson,
-                monnaie,
-            } => {
-                let monnaie_attendue = requette.argent - requette.commande.prix();
-                if monnaie_attendue != monnaie {
-                    println!("[{}] Eh, tu m'as pas donné le bon montant !", &nom);
-                    ajouter_au_score(-1.0);
-                } else {
-                    let (score, commentaire) = boisson.evaluer_qualite(requette.commande);
-                    println!("[{}] {}", &nom, commentaire);
-                    ajouter_au_score(score);
-                }
-            }
-            Reponse::Refuse {
-                client: _,
-                raison: _,
-            } => todo!(),
+    if let Ok(reponse) = reponse_recv.recv_timeout(REPOSE_TIMEOUT) {
+        let monnaie_attendue = requete.argent - requete.commande.prix();
+        if monnaie_attendue != reponse.monnaie {
+            println!("[{}] Eh, tu m'as pas donné le bon montant !", &nom);
+            ajouter_au_score(-1.0);
+        } else {
+            let (score, commentaire) = reponse.boisson.evaluer_qualite(requete.commande);
+            println!("[{}] {}", &nom, commentaire);
+            ajouter_au_score(score);
         }
     } else {
         println!("[{nom}]: Ahh, j'ai trop attendu. Je m'en vais!");
         ajouter_au_score(-1.0);
+        let mut callbacks = callbacks.lock().unwrap();
+        callbacks.remove(&nom);
     }
-}
-
-fn recevoir_reponse(
-    nom: &String,
-    reponses_store: Arc<Mutex<HashMap<String, Reponse>>>,
-) -> Option<Reponse> {
-    const MAX_ATTENTE: i32 = 10; // en secondes
-    for _ in 0..MAX_ATTENTE {
-        std::thread::sleep(Duration::from_secs(1));
-        let mut reponses_store = reponses_store.lock().unwrap();
-        if let Some(reponse) = reponses_store.remove(nom) {
-            return Some(reponse);
-        }
-    }
-    return None;
 }
 
 fn ajouter_au_score(points: f32) {
     let mut score = SCORE.lock().unwrap();
     *score += points;
-    println!("SCORE = {score} (+{points})");
+    if points > 0.0 {
+        println!("SCORE = {score} (+{points})");
+    } else {
+        println!("SCORE = {score} (-{})", -points);
+    }
+    if *score < 0.0 {
+        println!("SCORE NÉGATIF: GAME OVER");
+        exit(0);
+    } else if *score > 50.0 {
+        println!("BRAVO : Vous avez gagné!");
+        exit(0);
+    }
 }

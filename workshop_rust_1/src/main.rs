@@ -5,57 +5,54 @@ mod jeu;
 use std::thread::sleep;
 use std::time::Duration;
 
-use crate::boisson::{Boisson, ConteneurLait, CommandeBoisson, MachineEspresso};
-use crate::jeu::{Reponse, init_clients};
+use crate::boisson::{Boisson, CommandeBoisson, ConteneurLait, MachineExpresso};
+use crate::jeu::{GameMode, Reponse, init_game};
 
 fn main() {
-    // Initialisation du café, ne pas changer ces lignes:
-    let mut machine_espresso = MachineEspresso::<4>::new();
+    // Initialisation de l'équipement du café, ne pas changer ces lignes:
+    let mut machine_espresso = MachineExpresso::<4>::new();
     let mut conteneur_lait = ConteneurLait {};
-    // Initialisation des clients
-    let (reponse_send, requette_recv) = init_clients();
+
+    // Initialisation du jeu : les clients vont commencer à arriver !
+    let (reponse_send, requete_recv) = init_game(GameMode::Difficil);
 
     loop {
         // faites votre algorithme de cafe ici !
-        // let prochaine_requette = requette_recv.recv().unwrap();
 
-        //reponse_send.send(exemple_reponse).unwrap()
-
-        // SOLUTION
-        let prochaine_requette = requette_recv.recv().unwrap();
+        let prochaine_requete = requete_recv.recv().unwrap();
 
         let mut boisson = Boisson::vide();
-        match prochaine_requette.commande {
-            CommandeBoisson::Espresso => {
-                machine_espresso.commencer_espresso(0, boisson).unwrap();
+        match prochaine_requete.commande {
+            CommandeBoisson::Expresso => {
+                machine_espresso.commencer_expresso(0, boisson).unwrap();
                 while !machine_espresso.est_termine(0).unwrap() {
                     sleep(Duration::from_millis(50));
                 }
                 boisson = machine_espresso.retirer_boisson(0).unwrap();
-            },
+            }
             CommandeBoisson::CafeAllonge => {
-                machine_espresso.commencer_espresso(0, boisson).unwrap();
+                machine_espresso.commencer_expresso(0, boisson).unwrap();
                 while !machine_espresso.est_termine(0).unwrap() {
                     sleep(Duration::from_millis(50));
                 }
                 boisson = machine_espresso.retirer_boisson(0).unwrap();
                 machine_espresso.ajouter_eau_chaude(&mut boisson, 100.0);
-            },
-            CommandeBoisson::CafeLatte => {
-                machine_espresso.commencer_espresso(0, boisson).unwrap();
+            }
+            CommandeBoisson::CafeAuLait => {
+                machine_espresso.commencer_expresso(0, boisson).unwrap();
                 while !machine_espresso.est_termine(0).unwrap() {
                     sleep(Duration::from_millis(50));
                 }
                 boisson = machine_espresso.retirer_boisson(0).unwrap();
                 conteneur_lait.ajouter_lait(&mut boisson, 100.0);
-            },
+            }
         }
 
-        let monnaie = prochaine_requette.argent - prochaine_requette.commande.prix();
-        let reponse = Reponse::Servie {
-            client: prochaine_requette.client,
+        let monnaie = prochaine_requete.argent - prochaine_requete.commande.prix();
+        let reponse = Reponse {
+            client: prochaine_requete.client,
             boisson: boisson,
-            monnaie,
+            monnaie: monnaie,
         };
 
         reponse_send.send(reponse).unwrap()
