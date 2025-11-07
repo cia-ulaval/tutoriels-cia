@@ -70,20 +70,8 @@ const REPOSE_TIMEOUT: Duration = Duration::from_secs(5);
 static SCORE: Mutex<f32> = Mutex::new(0.0);
 
 pub fn init_game(mode: GameMode) -> (Sender<Reponse>, Receiver<Requete>) {
-    let (requete_send, requete_recv) = std::sync::mpsc::channel<Requete>();
+    let (requete_send, requete_recv) = mpsc::channel();
 
-    let resultat = Result::Ok("Hello");
-    let inside = resultat.unwrap(); // inside = "Hello"
-
-    let resultat = Result::Err(());
-    let inside = resultat.unwrap(); // crash !
-
-    let resultat = Option::Some("Hello");
-    let inside = resultat.unwrap(); // inside = "Hello"
-
-    let resultat = Option::None;
-    let inside = resultat.unwrap(); // crash !
-    
     let (reponse_send, reponse_recv) = mpsc::channel();
 
     let state = GameState {
@@ -154,7 +142,8 @@ fn run_client(
     std::thread::sleep(Duration::from_secs_f64(sleep_secs));
 
     let commande = COMMANDES.choose(&mut rng).unwrap().clone();
-    let argent = commande.prix() + rng.random_range(0.0..3.0);
+    let extra = rng.random_range(0..10) as f32 * 0.25;
+    let argent = commande.prix() + extra;
 
     let requete = Requete {
         client: nom.to_string(),
