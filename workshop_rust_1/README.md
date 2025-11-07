@@ -15,3 +15,5 @@ Les commandes de boisson possibles:
 
 Il faut aussi rendre la monnaie au client. On peut avoir le prix d'une boisson avec la fonction 
 `prix()`.
+
+Voir la présentation [ici](https://docs.google.com/presentation/d/1CBePilK6JoVQobNbrY9Y7OFb6iWooS6lXAX42-iGs-Q/edit?usp=sharing)
