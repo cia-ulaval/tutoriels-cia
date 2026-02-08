@@ -4,7 +4,7 @@ Ce dépôt contient les tutoriels du Club d'IA qui seront présentés durant l'a
 
 ## Tutoriel 1
 
-Le tutoriel 1 se trouve dans le dossier `Tuto1_ML`. Il contient le fichier .ipynb qui sera utilisé pour le laboratoire. De plus, le tutoriel peut être suivi sur Colab au lien suivant : [Machine Learning](https://colab.research.google.com/drive/1XEVFwF4LSrQ1xAGfszWzzT5CKE_UnO1B?usp=sharing)
+Le tutoriel 1 se trouve dans le dossier `Tuto1_ML`. Il contient le fichier .ipynb qui sera utilisé pour le laboratoire. De plus, le tutoriel peut être suivi sur Colab au lien suivant : [Machine Learning](https://drive.google.com/file/d/1oZC7ZYiBxzjR1QevqL3AWrjxmQj72Z5W/view?usp=sharing)
 
 ## Tutoriel 2
 
